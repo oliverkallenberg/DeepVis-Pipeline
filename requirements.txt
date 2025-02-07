@@ -2,3 +2,4 @@ numpy
 matplotlib
 OpenVisus
 pyyaml
+scipy
