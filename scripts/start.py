@@ -1,5 +1,6 @@
 import yaml
 import downloader_scalar as scalar
+import downloader_uv as uv
 
 
 def download_all():
@@ -12,16 +13,17 @@ def main():
         config = yaml.safe_load(file)
 
     if bool(config.get("variables")):
+        # Download LIC textures
+        uv.start_download_uv()
+
         for variable in config["variables"]:
+            # TODO: Welche gibt es schon? Und abhängig davon wird Startdatum gesetzt
+
             if variable in ["salt", "theta"]:
                 scalar.start_download_whole_cube(variable)
-            elif variable == "uvw":
-                #TODO: implemment uvw
-                pass
             elif variable == "voriticity":
                 #TODO: Voritcity
                 pass
-
     else:
         download_all()
 
