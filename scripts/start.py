@@ -5,8 +5,12 @@ import downloader_vort as vort
 
 
 def download_all():
-    #TODO: Implement download_all
-    return 0
+    uv.start_download_uv()
+    scalar.start_download_whole_cube("salt")
+    scalar.start_download_whole_cube("theta")
+    print("Start calculating vorticity")
+    vort.calc_all_vorticity()
+    print("Finished calculating vorticity")
 
 
 def main():
@@ -23,7 +27,9 @@ def main():
             if variable in ["salt", "theta"]:
                 scalar.start_download_whole_cube(variable)
             elif variable == "voriticity":
+                print("Start calculating vorticity")
                 vort.calc_all_vorticity()
+                print("Finished calculating vorticity")
     else:
         download_all()
 
