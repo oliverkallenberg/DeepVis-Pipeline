@@ -6,6 +6,5 @@ coordinates:
     y_max : 5025
 
 variables:
-    - theta
-    - salt
+    - voriticity
 

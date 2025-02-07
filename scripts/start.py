@@ -1,6 +1,7 @@
 import yaml
 import downloader_scalar as scalar
 import downloader_uv as uv
+import downloader_vort as vort
 
 
 def download_all():
@@ -22,8 +23,7 @@ def main():
             if variable in ["salt", "theta"]:
                 scalar.start_download_whole_cube(variable)
             elif variable == "voriticity":
-                #TODO: Voritcity
-                pass
+                vort.calc_all_vorticity()
     else:
         download_all()
 
