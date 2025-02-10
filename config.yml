@@ -8,5 +8,5 @@ coordinates:
 variables:
     - salt
     - theta
-    - voriticity
+    - vorticity
 

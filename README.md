@@ -8,5 +8,5 @@ All Scripts are run in a Docker container. Therefore a Docker installation is ne
 
 
 ## TMP COMMANDS
-docker build -t deepvis-pipeline .
+docker build -t oliverkallenberg/deepvis-pipeline .
 docker run -it -v %cd%\config.yml:/config.yml -v %cd%\data:/data --rm --name dvp deepvis-pipeline bash
