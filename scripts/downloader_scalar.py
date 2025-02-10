@@ -86,4 +86,11 @@ def start_download_whole_cube(variable):
             month += 1
         actual_time = datetime(year, month, 13, 0)
 
+    if variable == "salt":
+        utils.write_min_max("SALT", min_value, max_value, min_dict_local,
+                            max_dict_local)
+    elif variable == "theta":
+        utils.write_min_max("THETA", min_value, max_value, min_dict_local,
+                            max_dict_local)
+
     print("Script finished in: ", datetime.now() - script_start)
