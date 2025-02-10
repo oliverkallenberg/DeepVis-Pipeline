@@ -54,7 +54,6 @@ def download_whole_cube(db, actual_time, variable):
 
 
 def start_download_whole_cube(variable):
-    script_start = datetime.now()
 
     db = utils.get_db(variable)
     start_time = datetime(2011, 9, 13, 0)
@@ -92,5 +91,3 @@ def start_download_whole_cube(variable):
     elif variable == "theta":
         utils.write_min_max("THETA", min_value, max_value, min_dict_local,
                             max_dict_local)
-
-    print("Script finished in: ", datetime.now() - script_start)
