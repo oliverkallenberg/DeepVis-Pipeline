@@ -18,12 +18,14 @@ def save_cube(array, actual_time):
 
 
 def transform_to_uv(array_u, array_v):
-    uv_transformed = np.ones((90, 1, 2 * 250 * 250))
-    for i, _ in enumerate(array_u):
-        uv_layer = np.ravel(np.column_stack((array_u[i], array_v[i])))
-        uv_flat = uv_layer.reshape(1, 2 * 250 * 250)
-        uv_transformed[i] = uv_flat
-    return uv_transformed
+    uv_transformed = []
+    for i in range(90):
+        u_layer = array_u[i].reshape(1, 250 * 250)
+        v_layer = array_v[i].reshape(1, 250 * 250)
+        uv_layer = np.column_stack(
+            (u_layer.ravel(), v_layer.ravel())).ravel().reshape(1, -1)
+        uv_transformed.append(uv_layer)
+    return np.array(uv_transformed, dtype=np.float16)
 
 
 def download_whole_cube(db, actual_time, variable):
