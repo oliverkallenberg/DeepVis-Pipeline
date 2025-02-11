@@ -12,7 +12,7 @@ def download_all():
     scalar.start_download_whole_cube("theta")
     print("Start calculating vorticity")
     vort.calc_all_vorticity()
-    utils.write_min_max_vort()
+    utils.get_min_max_vort()
     print("Finished calculating vorticity")
 
 
@@ -22,11 +22,8 @@ def main():
 
     data = utils.load_json()
     data["size_km"] = utils.get_km_of_config(config)
-    print("Write to json:")
-    print(data)
     with open('/metadata.json', 'w') as file:
         json.dump(data, file, indent=4)
-    print("Done writing to json")
 
     if bool(config.get("variables")):
         # Download LIC textures
@@ -38,7 +35,7 @@ def main():
             elif variable == "vorticity":
                 print("Start calculating vorticity")
                 vort.calc_all_vorticity()
-                utils.write_min_max_vort()
+                utils.get_min_max_vort()
                 print("Finished calculating vorticity")
     else:
         download_all()

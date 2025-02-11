@@ -14,6 +14,10 @@ def download_whole_cube(db, actual_time, variable):
     data3D = db.read(time=time_step, x=GLOBALS.X_RANGE, y=GLOBALS.Y_RANGE)
     print("Download finished - time needed: ", datetime.now() - start_counter)
 
+    # extract min and max values for each layer
+    min_values_local, max_values_local = utils.get_min_max_local(
+        data3D, variable)
+
     # Resize and filter data
     data3D_resized = np.array([utils.resize_array(matrix) for matrix in data3D])
     data3D_resized = np.array(
@@ -25,10 +29,6 @@ def download_whole_cube(db, actual_time, variable):
 
     # Use float16 to save space
     data_array_16 = np.array(data3D_flat, dtype=np.float16)
-
-    # extract min and max values for each layer
-    min_values_local, max_values_local = utils.get_min_max_local(
-        data_array_16, variable)
 
     # Save each layer separately
     for i, data in enumerate(data_array_16):

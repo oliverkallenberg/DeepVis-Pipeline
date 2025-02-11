@@ -41,5 +41,7 @@ def calc_all_vorticity():
         if os.path.isfile(uv_data) and "uv_" in filename:
             print(filename)
             vorticity_flattend = compute_vorticity_from_file(uv_data)
+            vorticity_flattend = np.array(vorticity_flattend, dtype=np.float16)
             np.savetxt(os.path.join(path, vort_name), [vorticity_flattend],
-                       delimiter=",")
+                       delimiter=",",
+                       fmt='%f')
