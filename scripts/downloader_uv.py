@@ -48,8 +48,6 @@ def download_whole_cube(db, actual_time, variable):
 
 
 def start_download_uv():
-    script_start = datetime.now()
-
     db_u = utils.get_db("u")
     db_v = utils.get_db("v")
     start_time = datetime(2011, 9, 13, 0)
@@ -71,5 +69,3 @@ def start_download_uv():
         else:
             month += 1
         actual_time = datetime(year, month, 13, 0)
-
-    print("Script finished in: ", datetime.now() - script_start)

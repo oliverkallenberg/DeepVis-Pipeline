@@ -7,18 +7,6 @@ from pathlib import Path
 import numpy as np
 
 
-def get_min_max_local(data):
-    min_values = []
-    max_values = []
-
-    for matrix in data:
-        plane_values = matrix.copy()
-        plane_values = plane_values[~np.isnan(plane_values)]
-        min_values.append(float(np.percentile(plane_values, 2.5)))
-        max_values.append(float(np.percentile(plane_values, 97.5)))
-        return min_values, max_values
-
-
 def download_whole_cube(db, actual_time, variable):
     print(f"Start downloading {variable} data for: ", actual_time)
     start_counter = datetime.now()
@@ -39,7 +27,8 @@ def download_whole_cube(db, actual_time, variable):
     data_array_16 = np.array(data3D_flat, dtype=np.float16)
 
     # extract min and max values for each layer
-    min_values_local, max_values_local = utils.get_min_max_local(data_array_16)
+    min_values_local, max_values_local = utils.get_min_max_local(
+        data_array_16, variable)
 
     # Save each layer separately
     for i, data in enumerate(data_array_16):

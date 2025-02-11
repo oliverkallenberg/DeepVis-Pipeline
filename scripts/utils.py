@@ -47,16 +47,24 @@ def resize_array(data):
     return zoom(data, (zoom_factor, zoom_factor), order=1)
 
 
-def get_min_max_local(data):
+def get_min_max_local(data, variable):
     min_values = []
     max_values = []
 
     for matrix in data:
         plane_values = matrix.copy()
         plane_values = plane_values[~np.isnan(plane_values)]
-        min_values.append(float(np.percentile(plane_values, 2.5)))
-        max_values.append(float(np.percentile(plane_values, 97.5)))
-        return min_values, max_values
+        if variable == "salt":
+            plane_values = plane_values[plane_values >= 30]
+
+        if len(plane_values) != 0:
+            min_values.append(float(np.percentile(plane_values, 5)))
+            max_values.append(float(np.percentile(plane_values, 95)))
+        else:
+            min_values.append(min_values[-1])
+            max_values.append(max_values[-1])
+
+    return min_values, max_values
 
 
 def get_min_max_per_month(dir, prefix):
@@ -69,14 +77,18 @@ def get_min_max_per_month(dir, prefix):
         print("Reading file: ", file_path)
         data = np.loadtxt(file_path, delimiter=",")
         data = data[~np.isnan(data)]
-        min_values.append(float(np.percentile(data, 2.5)))
-        max_values.append(float(np.percentile(data, 97.5)))
+        if len(data) == 0:
+            min_values.append(min_values[-1])
+            max_values.append(max_values[-1])
+        else:
+            min_values.append(float(np.percentile(data, 5)))
+            max_values.append(float(np.percentile(data, 95)))
         counter += 1
     return min_values, max_values
 
 
 def get_min_max_vort():
-    variable = "vorticity_uv"
+    variable = "vorticity_uvw"
     directory = "/data"
 
     min_dict = {}
@@ -93,7 +105,6 @@ def get_min_max_vort():
     month = int(start_time.month)
 
     while actual_time < end_time:
-        print("Processing time: ", actual_time.date())
         prefix = f"{variable}_{year}_{month}_13_0_"
 
         min_values, max_values = get_min_max_per_month(directory, prefix)
