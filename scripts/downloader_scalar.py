@@ -28,15 +28,15 @@ def download_whole_cube(db, actual_time, variable):
         [matrix.reshape(1, 250 * 250) for matrix in data3D_resized])
 
     # Use float16 to save space
-    data_array_16 = np.array(data3D_flat, dtype=np.float16)
+    data_array_32 = np.array(data3D_flat, dtype=np.float32)
 
     # Save each layer separately
-    for i, data in enumerate(data_array_16):
+    for i, data in enumerate(data_array_32):
         filename = Path("/data/" + variable + "_" + str(actual_time.year) +
                         "_" + str(actual_time.month) + "_" +
                         str(actual_time.day) + "_" + str(actual_time.hour) +
-                        "_" + str(i) + ".csv")
-        np.savetxt(filename, data, delimiter=",", fmt='%f')
+                        "_" + str(i) + ".bin")
+        data.tofile(filename)
     print("Data saved successfully")
 
     return min_values_local, max_values_local

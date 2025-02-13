@@ -54,12 +54,10 @@ def get_min_max_local(data, variable):
     for matrix in data:
         plane_values = matrix.copy()
         plane_values = plane_values[~np.isnan(plane_values)]
-        if variable == "salt":
-            plane_values = plane_values[plane_values >= 30]
 
         if len(plane_values) != 0:
-            min_values.append(float(np.percentile(plane_values, 5)))
-            max_values.append(float(np.percentile(plane_values, 95)))
+            min_values.append(float(np.percentile(plane_values, 2.5)))
+            max_values.append(float(np.percentile(plane_values, 97.5)))
         else:
             min_values.append(min_values[-1])
             max_values.append(max_values[-1])
@@ -73,16 +71,16 @@ def get_min_max_per_month(dir, prefix):
 
     counter = 0
     while counter <= 89:
-        file_path = dir + "/" + prefix + f"{counter}.csv"
+        file_path = dir + "/" + prefix + f"{counter}.bin"
         print("Reading file: ", file_path)
-        data = np.loadtxt(file_path, delimiter=",")
+        data = np.fromfile(file_path, dtype=np.float16)
         data = data[~np.isnan(data)]
         if len(data) == 0:
             min_values.append(min_values[-1])
             max_values.append(max_values[-1])
         else:
-            min_values.append(float(np.percentile(data, 5)))
-            max_values.append(float(np.percentile(data, 95)))
+            min_values.append(float(np.percentile(data, 2.5)))
+            max_values.append(float(np.percentile(data, 97.5)))
         counter += 1
     return min_values, max_values
 

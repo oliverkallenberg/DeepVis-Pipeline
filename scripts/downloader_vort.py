@@ -4,7 +4,7 @@ import os
 
 def compute_vorticity_from_file(uv_data_path):
     # Read the CSV file
-    data = np.loadtxt(uv_data_path, delimiter=',')
+    data = np.fromfile(uv_data_path)
     u = data[0::2]
     v = data[1::2]
 
@@ -41,7 +41,6 @@ def calc_all_vorticity():
         if os.path.isfile(uv_data) and "uv_" in filename:
             print(filename)
             vorticity_flattend = compute_vorticity_from_file(uv_data)
-            vorticity_flattend = np.array(vorticity_flattend, dtype=np.float16)
-            np.savetxt(os.path.join(path, vort_name), [vorticity_flattend],
-                       delimiter=",",
-                       fmt='%f')
+            vorticity_flattend = np.array(vorticity_flattend,
+                                          dtype=np.float32).reshape(1, -1)
+            vorticity_flattend.tofile(os.path.join(path, vort_name))
