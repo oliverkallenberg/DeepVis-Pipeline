@@ -47,7 +47,7 @@ def resize_array(data):
     return zoom(data, (zoom_factor, zoom_factor), order=1)
 
 
-def get_min_max_local(data, variable):
+def get_min_max_local(data):
     min_values = []
     max_values = []
 
@@ -73,7 +73,7 @@ def get_min_max_per_month(dir, prefix):
     while counter <= 89:
         file_path = dir + "/" + prefix + f"{counter}.bin"
         print("Reading file: ", file_path)
-        data = np.fromfile(file_path, dtype=np.float16)
+        data = np.fromfile(file_path, dtype=np.float32)
         data = data[~np.isnan(data)]
         if len(data) == 0:
             min_values.append(min_values[-1])

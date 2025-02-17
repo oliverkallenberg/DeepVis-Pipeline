@@ -4,7 +4,7 @@ import os
 
 def compute_vorticity_from_file(uv_data_path):
     # Read the CSV file
-    data = np.fromfile(uv_data_path)
+    data = np.fromfile(uv_data_path, dtype=np.float32)
     u = data[0::2]
     v = data[1::2]
 
