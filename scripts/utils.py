@@ -53,11 +53,11 @@ def get_min_max_local(data):
 
     for matrix in data:
         plane_values = matrix.copy()
-        plane_values = plane_values[~np.isnan(plane_values)]
+        plane_values = plane_values[plane_values != 0]
 
         if len(plane_values) != 0:
-            min_values.append(float(np.percentile(plane_values, 2.5)))
-            max_values.append(float(np.percentile(plane_values, 97.5)))
+            min_values.append(float(np.percentile(plane_values, 5)))
+            max_values.append(float(np.percentile(plane_values, 95)))
         else:
             min_values.append(min_values[-1])
             max_values.append(max_values[-1])
@@ -79,8 +79,8 @@ def get_min_max_per_month(dir, prefix):
             min_values.append(min_values[-1])
             max_values.append(max_values[-1])
         else:
-            min_values.append(float(np.percentile(data, 2.5)))
-            max_values.append(float(np.percentile(data, 97.5)))
+            min_values.append(float(np.percentile(data, 5)))
+            max_values.append(float(np.percentile(data, 95)))
         counter += 1
     return min_values, max_values
 
