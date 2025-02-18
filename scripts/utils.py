@@ -47,15 +47,13 @@ def resize_array(data):
     return zoom(data, (zoom_factor, zoom_factor), order=1)
 
 
-def get_min_max_local(data, variable):
+def get_min_max_local(data):
     min_values = []
     max_values = []
 
     for matrix in data:
         plane_values = matrix.copy()
-        plane_values = plane_values[~np.isnan(plane_values)]
-        if variable == "salt":
-            plane_values = plane_values[plane_values >= 30]
+        plane_values = plane_values[plane_values != 0]
 
         if len(plane_values) != 0:
             min_values.append(float(np.percentile(plane_values, 5)))
@@ -73,9 +71,9 @@ def get_min_max_per_month(dir, prefix):
 
     counter = 0
     while counter <= 89:
-        file_path = dir + "/" + prefix + f"{counter}.csv"
+        file_path = dir + "/" + prefix + f"{counter}.bin"
         print("Reading file: ", file_path)
-        data = np.loadtxt(file_path, delimiter=",")
+        data = np.fromfile(file_path, dtype=np.float32)
         data = data[~np.isnan(data)]
         if len(data) == 0:
             min_values.append(min_values[-1])
