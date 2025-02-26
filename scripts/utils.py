@@ -41,10 +41,18 @@ def get_km_of_config(config):
 
 
 def resize_array(data):
-    target_size = (250, 250)
+    m = 250
     n = data.shape[0]
-    zoom_factor = target_size[0] / n
-    return zoom(data, (zoom_factor, zoom_factor), order=1)
+
+    mask = ~np.isnan(data)
+
+    scaled_data = zoom(np.nan_to_num(data), m / data.shape[0], order=1)
+    scaled_mask = zoom(mask.astype(float), m / data.shape[0], order=1)
+    valid_mask = scaled_mask > 0
+    scaled_data[valid_mask] /= scaled_mask[valid_mask]
+    scaled_data[~valid_mask] = np.nan
+
+    return scaled_data
 
 
 def get_min_max_local(data):
