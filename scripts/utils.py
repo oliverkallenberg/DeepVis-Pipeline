@@ -44,6 +44,7 @@ def resize_array(data):
     m = 250
     n = data.shape[0]
 
+    data = filter_to_nan(data)
     mask = ~np.isnan(data)
 
     scaled_data = zoom(np.nan_to_num(data), m / data.shape[0], order=1)
