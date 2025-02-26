@@ -29,7 +29,7 @@ def get_timestamp(target_datetime):
 
 
 def filter_to_nan(data):
-    data[data == 0] = np.nan
+    data[data == 0.0] = np.nan
     return data
 
 
