@@ -76,8 +76,8 @@ def get_min_max_local(data):
         plane_values = plane_values[plane_values != 0]
 
         if len(plane_values) != 0:
-            min_values.append(float(np.percentile(plane_values, 5)))
-            max_values.append(float(np.percentile(plane_values, 95)))
+            min_values.append(float(np.min(plane_values)))
+            max_values.append(float(np.max(plane_values)))
             #print("perc: ",float(np.percentile(plane_values, 5)))
         else:
             if min_values:  # Ensure there's a previous value
@@ -108,8 +108,8 @@ def get_min_max_per_month(dir, prefix):
                 min_values.append(0)  # Fallback value
                 max_values.append(0)  # Fallback value
         else:
-            min_values.append(float(np.percentile(data, 5)))
-            max_values.append(float(np.percentile(data, 95)))
+            min_values.append(float(np.min(data)))
+            max_values.append(float(np.max(data)))
         counter += 1
     return min_values, max_values
 
