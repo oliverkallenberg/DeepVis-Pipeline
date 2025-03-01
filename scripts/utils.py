@@ -148,7 +148,7 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
     min_value = np.inf
     max_value = -np.inf
 
-    stimesteps = np.linspace(startTime, endTime, numSteps)
+    timesteps = np.linspace(startTime, endTime, numSteps)
     timesteps = timesteps.astype(int)
 
     for step in timesteps:
