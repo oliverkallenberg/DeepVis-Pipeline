@@ -48,6 +48,26 @@ def download_whole_cube(db, actual_time, variable):
     data_array_32 = np.array(data3D_flat, dtype=np.float32)
     return data_array_32
 
+def download_whole_cube_at_Time(db, timeIdx, variable):
+    start_counter = datetime.now()
+    actual_time = utils.getDateFromTimeIndex(timeIdx);
+    print(f"Start downloading data {variable} for LIC textures: ", actual_time)
+    data3D = db.read(time=timeIdx-1, x=GLOBALS.X_RANGE, y=GLOBALS.Y_RANGE)
+    print("Download finished - time needed: ", datetime.now() - start_counter)
+
+    # Resize and filter data
+    data3D_resized = np.array([utils.resize_array(matrix) for matrix in data3D])
+    data3D_resized = np.array(
+        [utils.filter_to_nan(matrix) for matrix in data3D_resized])
+
+    # Flat each matrix to row
+    data3D_flat = np.array(
+        [matrix.reshape(1, 250 * 250) for matrix in data3D_resized])
+
+    # Use float32 to save space
+    data_array_32 = np.array(data3D_flat, dtype=np.float32)
+    return data_array_32
+
 
 def start_download_uv():
     db_u = utils.get_db("u")
@@ -71,3 +91,19 @@ def start_download_uv():
         else:
             month += 1
         actual_time = datetime(year, month, 13, 0)
+
+def start_download_uv_with_Time(startTime, endTime, numSteps):
+    db_u = utils.get_db("u")
+    db_v = utils.get_db("v")
+    
+    # Create samples between start and end, but make sure its full integers:
+    timesteps = np.linspace(startTime, endTime, numSteps)
+    timesteps = timesteps.astype(int)
+
+    for step in timesteps:
+        actual_time = utils.getDateFromTimeIndex(step);
+        u_data = download_whole_cube_at_Time(db_u, int(step), "u")
+        v_data = download_whole_cube_at_Time(db_v, int(step), "v")
+        
+        uv_data = transform_to_uv(u_data, v_data)
+        save_cube(uv_data, actual_time)

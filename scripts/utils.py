@@ -11,10 +11,18 @@ def get_db(variable):
     variable = GLOBALS.VAR_TO_LINK[variable]
     return ov.LoadDataset(variable)
 
+def getDateFromTimeIndex(idx):
+    # Time Span: 2011-Sep-13 to 2012-Nov-17 / 432 days / 10366 hours maximum
+    startDate = datetime(2011, 9, 13, 0, 0, 0)
+    delta = int(idx)-1
+    future_dateTime = startDate + timedelta(hours=delta)
+    #formatted_date = future_dateTime.strftime('%Y-%m-%d H:%H')
+    return future_dateTime
+
 
 def get_timestamp(target_datetime):
     start_datetime = datetime(2011, 9, 13, 0)
-    total_timestamps = 10269
+    total_timestamps = 10320
     time_difference = target_datetime - start_datetime
 
     if time_difference.total_seconds() >= 0:
