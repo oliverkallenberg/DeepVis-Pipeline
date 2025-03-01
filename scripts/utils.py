@@ -13,10 +13,11 @@ def get_db(variable):
     variable = GLOBALS.VAR_TO_LINK[variable]
     return ov.LoadDataset(variable)
 
+
 def getDateFromTimeIndex(idx):
     # Time Span: 2011-Sep-13 to 2012-Nov-17 / 432 days / 10366 hours maximum
     startDate = datetime(2011, 9, 13, 0, 0, 0)
-    delta = int(idx)-1
+    delta = int(idx) - 1
     future_dateTime = startDate + timedelta(hours=delta)
     #formatted_date = future_dateTime.strftime('%Y-%m-%d H:%H')
     return future_dateTime
@@ -86,7 +87,6 @@ def get_min_max_local(data):
                 min_values.append(0)  # Fallback value
                 max_values.append(0)  # Fallback value
 
-
     return min_values, max_values
 
 
@@ -146,6 +146,7 @@ def get_min_max_vort():
 
     write_min_max("VORT", min_value, max_value, min_dict, max_dict)
 
+
 def get_min_max_vort_with_Time(startTime, endTime, numSteps):
     variable = "vorticity_uvw"
     directory = "/data"
@@ -160,7 +161,7 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
     timesteps = timesteps.astype(int)
 
     for step in timesteps:
-        actual_time = getDateFromTimeIndex(step);
+        actual_time = getDateFromTimeIndex(step)
 
         year = int(actual_time.year)
         month = int(actual_time.month)
@@ -176,7 +177,6 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
 
         min_value = min(min_value, min(min_values))
         max_value = max(max_value, max(max_values))
-
 
     write_min_max("VORT", min_value, max_value, min_dict, max_dict)
 
@@ -204,7 +204,7 @@ def write_min_max(var, min_global, max_global, min_dict, max_dict):
         "min_local": min_dict,
         "max_local": max_dict,
     }
-    with open(f"/metadata.json", "w") as file:
+    with open(f"/data/metadata.json", "w") as file:
         json.dump(
             data,
             file,
