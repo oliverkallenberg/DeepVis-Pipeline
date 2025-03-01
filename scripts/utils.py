@@ -182,7 +182,7 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
 
 
 def load_json():
-    filepath = '/metadata.json'
+    filepath = '/data/metadata.json'
     if os.path.exists(filepath):
         with open(filepath, "r") as file:
             try:
