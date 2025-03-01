@@ -49,7 +49,7 @@ def main():
             elif variable == "vorticity":
                 print("Start calculating vorticity")
                 vort.calc_all_vorticity()
-                utils.get_min_max_vort()
+                utils.get_min_max_vort_with_Time(startTime, endTime, numSteps)
                 print("Finished calculating vorticity")
     else:
         download_all()

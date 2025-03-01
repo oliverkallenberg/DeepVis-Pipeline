@@ -138,6 +138,36 @@ def get_min_max_vort():
 
     write_min_max("VORT", min_value, max_value, min_dict, max_dict)
 
+def get_min_max_vort_with_Time(startTime, endTime, numSteps):
+    variable = "vorticity_uvw"
+    directory = "/data"
+
+    min_dict = {}
+    max_dict = {}
+
+    min_value = np.inf
+    max_value = -np.inf
+
+    stimesteps = np.linspace(startTime, endTime, numSteps)
+    timesteps = timesteps.astype(int)
+
+    for step in timesteps:
+        actual_time = utils.getDateFromTimeIndex(step);
+        year = int(actual_time.year)
+        month = int(sactual_time.month)
+        hour = int(sactual_time.hours)
+        prefix = f"{variable}_{year}_{month}_{hour}_"
+
+        min_values, max_values = get_min_max_per_month(directory, prefix)
+        min_dict[f"{actual_time.date()}"] = min_values
+        max_dict[f"{actual_time.date()}"] = max_values
+
+        min_value = min(min_value, min(min_values))
+        max_value = max(max_value, max(max_values))
+
+
+    write_min_max("VORT", min_value, max_value, min_dict, max_dict)
+
 
 def load_json():
     filepath = "/metadata.json"
