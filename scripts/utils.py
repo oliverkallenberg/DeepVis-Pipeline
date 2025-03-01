@@ -101,8 +101,12 @@ def get_min_max_per_month(dir, prefix):
         data = np.fromfile(file_path, dtype=np.float32)
         data = data[~np.isnan(data)]
         if len(data) == 0:
-            min_values.append(min_values[-1])
-            max_values.append(max_values[-1])
+            if min_values:
+                min_values.append(min_values[-1])
+                max_values.append(max_values[-1])
+            else:
+                min_values.append(0)  # Fallback value
+                max_values.append(0)  # Fallback value
         else:
             min_values.append(float(np.percentile(data, 5)))
             max_values.append(float(np.percentile(data, 95)))
