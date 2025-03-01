@@ -1,5 +1,4 @@
 import globals as GLOBALS
-import utils
 
 from datetime import datetime, timedelta
 from scipy.ndimage import zoom
@@ -155,11 +154,13 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
     timesteps = timesteps.astype(int)
 
     for step in timesteps:
-        actual_time = utils.getDateFromTimeIndex(step);
+        actual_time = getDateFromTimeIndex(step);
+
         year = int(actual_time.year)
         month = int(actual_time.month)
+        day = int(actual_time.day)
         hour = int(actual_time.hour)
-        prefix = f"{variable}_{year}_{month}_{hour}_"
+        prefix = f"{variable}_{year}_{month}_{day}_{hour}_"
 
         min_values, max_values = get_min_max_per_month(directory, prefix)
         min_dict[f"{actual_time.date()}"] = min_values
