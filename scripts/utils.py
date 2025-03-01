@@ -157,8 +157,8 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
     for step in timesteps:
         actual_time = utils.getDateFromTimeIndex(step);
         year = int(actual_time.year)
-        month = int(sactual_time.month)
-        hour = int(sactual_time.hours)
+        month = int(actual_time.month)
+        hour = int(actual_time.hours)
         prefix = f"{variable}_{year}_{month}_{hour}_"
 
         min_values, max_values = get_min_max_per_month(directory, prefix)
