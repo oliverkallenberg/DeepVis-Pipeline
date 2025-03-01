@@ -77,9 +77,15 @@ def get_min_max_local(data):
         if len(plane_values) != 0:
             min_values.append(float(np.percentile(plane_values, 5)))
             max_values.append(float(np.percentile(plane_values, 95)))
+            #print("perc: ",float(np.percentile(plane_values, 5)))
         else:
-            min_values.append(min_values[-1])
-            max_values.append(max_values[-1])
+            if min_values:  # Ensure there's a previous value
+                min_values.append(min_values[-1])
+                max_values.append(max_values[-1])
+            else:
+                min_values.append(0)  # Fallback value
+                max_values.append(0)  # Fallback value
+
 
     return min_values, max_values
 
@@ -161,10 +167,12 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
         day = int(actual_time.day)
         hour = int(actual_time.hour)
         prefix = f"{variable}_{year}_{month}_{day}_{hour}_"
+        keyName = f"{year}-{month}-{day}-{hour}"
 
         min_values, max_values = get_min_max_per_month(directory, prefix)
-        min_dict[f"{actual_time.date()}"] = min_values
-        max_dict[f"{actual_time.date()}"] = max_values
+
+        min_dict[f"{keyName}"] = min_values
+        max_dict[f"{keyName}"] = max_values
 
         min_value = min(min_value, min(min_values))
         max_value = max(max_value, max(max_values))
@@ -174,7 +182,7 @@ def get_min_max_vort_with_Time(startTime, endTime, numSteps):
 
 
 def load_json():
-    filepath = "/metadata.json"
+    filepath = '/metadata.json'
     if os.path.exists(filepath):
         with open(filepath, "r") as file:
             try:
@@ -184,6 +192,7 @@ def load_json():
                 }  # Start with an empty dictionary if file is empty or invalid
     else:
         data = {}
+        print("File fehlt!")
     return data
 
 

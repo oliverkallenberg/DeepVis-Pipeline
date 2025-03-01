@@ -133,9 +133,16 @@ def start_download_whole_cube_with_Time(variable, startTime, endTime, numSteps):
         actual_time = utils.getDateFromTimeIndex(step);
         min_local, max_local = download_whole_cube_at_Time(db, int(step), variable)
 
-        formatted_date = actual_time.strftime('%Y-%m-%d-H:%H')
-        min_dict_local[f"{formatted_date}"] = min_local
-        max_dict_local[f"{formatted_date}"] = max_local
+        year = int(actual_time.year)
+        month = int(actual_time.month)
+        day = int(actual_time.day)
+        hour = int(actual_time.hour)
+        keyName = f"{year}-{month}-{day}-{hour}"
+
+        print("Check key name:", keyName)
+
+        min_dict_local[f"{keyName}"] = min_local
+        max_dict_local[f"{keyName}"] = max_local
         min_value = min(min_value, min(min_local))
         max_value = max(max_value, max(max_local))
 
