@@ -84,8 +84,8 @@ def get_min_max_local(data):
                 min_values.append(min_values[-1])
                 max_values.append(max_values[-1])
             else:
-                min_values.append(0)  # Fallback value
-                max_values.append(0)  # Fallback value
+                min_values.append(np.nan)  # Fallback value
+                max_values.append(np.nan)  # Fallback value
 
     return min_values, max_values
 
@@ -105,8 +105,8 @@ def get_min_max_per_month(dir, prefix):
                 min_values.append(min_values[-1])
                 max_values.append(max_values[-1])
             else:
-                min_values.append(0)  # Fallback value
-                max_values.append(0)  # Fallback value
+                min_values.append(np.nan)  # Fallback value
+                max_values.append(np.nan)  # Fallback value
         else:
             min_values.append(float(np.min(data)))
             max_values.append(float(np.max(data)))
